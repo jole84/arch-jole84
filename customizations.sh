@@ -7,16 +7,16 @@ sudo sed \
     -i /etc/pacman.conf
 
 # fish alias
-alias pacin='sudo pacman -S' -s # install package
-alias pacrm='sudo pacman -Rs' -s # remove package
-alias pacup='sudo pacman -Syu' -s # update
-alias paccup='sudo pacman -Sy >/dev/null && pacman -Qu' -s # check for updates
-alias pacss='pacman -Ss' -s # search
+alias pacinstall='sudo pacman -S' -s # install package
+alias pacremove='sudo pacman -Rs' -s # remove package
+alias pacupdate='sudo pacman -Syu' -s # update
+alias paccheckupdate='sudo pacman -Sy >/dev/null && pacman -Qu' -s # check for updates
+alias pacsearch='pacman -Ss' -s # search
 alias pacinfo='pacman -Si' -s # show package info
-alias pacls='pacman -Qe' -s # list explicitly installed packages
-alias paclso='pacman -Qdt' -s # list explicitly installed uneeded packages
-alias paclsa='pacman -Qem' -s # list explicitly installed packages not in sync database
-alias pacarm='sudo pacman -Qdtq | sudo pacman -Rsu -' -s # autoremove unneeded
+alias paclistinstalled='pacman -Qe' -s # list explicitly installed packages
+alias paclistorphans='pacman -Qdt' -s # list explicitly installed uneeded packages
+alias paclistaliens='pacman -Qem' -s # list explicitly installed packages not in sync database
+alias pacautoremove='sudo pacman -Qdtq | sudo pacman -Rsu -' -s # autoremove unneeded
 
 
 # other stuff
