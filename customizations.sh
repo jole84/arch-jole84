@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/fish
 
 # pacman
 sudo sed \
