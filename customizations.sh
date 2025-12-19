@@ -8,7 +8,7 @@ sudo sed \
 
 # fish alias
 alias pacinstall='sudo pacman -S' -s # install package
-alias pacremove='sudo pacman -Rs' -s # remove package
+alias pacremove='sudo pacman -Rns' -s # remove package
 alias pacupdate='sudo pacman -Syu' -s # update
 alias paccheckupdate='sudo pacman -Sy >/dev/null && pacman -Qu' -s # check for updates
 alias pacsearch='pacman -Ss' -s # search
