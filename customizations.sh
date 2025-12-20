@@ -10,7 +10,7 @@ sudo sed \
 alias pacinstall='sudo pacman -S' -s # install package
 alias pacremove='sudo pacman -Rns' -s # remove package
 alias pacupdate='sudo pacman -Syu' -s # update
-alias paccheckupdate='sudo pacman -Sy >/dev/null && pacman -Qu' -s # check for updates
+alias paccheckupdate='sudo pacman -Sy >/dev/null && pacman -Qu && flatpak update' -s # check for updates
 alias pacsearch='pacman -Ss' -s # search
 alias pacinfo='pacman -Si' -s # show package info
 alias paclistinstalled='pacman -Qe' -s # list explicitly installed packages
