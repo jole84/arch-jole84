@@ -19,14 +19,13 @@ alias paclistorphans='pacman -Qdt' -s # list explicitly installed uneeded packag
 alias paclistaliens='pacman -Qem' -s # list explicitly installed packages not in sync database
 alias pacautoremove='sudo pacman -Qdtq | sudo pacman -Rsu -' -s # autoremove unneeded
 
-
-# other stuff
-
-# sudo pacman -S glibc glibc-locales
+# aur git pull
+find ~/aur -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;
 
 # sudo pacman -S --needed base-devel git
-
-# git clone https://aur.archlinux.org/yay.git
+# git clone https://aur.archlinux.org/yay-bin.git
 # git clone https://aur.archlinux.org/google-chrome.git
-
 # makepkg -si
+
+# other stuff
+# sudo pacman -S glibc glibc-locales
