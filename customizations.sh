@@ -1,9 +1,9 @@
 #!/bin/fish
 
 # pacman
+    # -e 's/#VerbosePkgLists/VerbosePkgLists/' \
 sudo sed \
     -e 's/#Color/Color/' \
-    -e 's/#VerbosePkgLists/VerbosePkgLists/' \
     -e 's/ParallelDownloads = 5/ParallelDownloads = 10/' \
     -i /etc/pacman.conf
 
