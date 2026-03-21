@@ -12,7 +12,8 @@ sudo sed \
 # fish alias
 alias pacinstall='sudo pacman -S' -s # install package
 alias pacremove='sudo pacman -Rns' -s # remove package
-alias pacupdate='sudo pacman -Syu && flatpak update && find ~/aur -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;' -s # update
+alias pacupdate='sudo pacman -Syu && flatpak update' -s
+# alias pacupdate='sudo pacman -Syu && flatpak update && find ~/aur -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;' -s # update
 alias paccheckupdate='sudo pacman -Sy >/dev/null && pacman -Qu' -s # check for updates
 alias pacsearch='pacman -Ss' -s # search
 alias pacinfo='pacman -Si' -s # show package info
