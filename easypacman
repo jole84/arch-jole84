@@ -14,7 +14,6 @@ parser.add_argument('-r', '--uninstall', nargs='*', help='Uninstall package and 
 
 parser.add_argument('-u', '--upgrade', action='store_true', help='upgrade system')
 parser.add_argument('--update', action='store_true', help='alias for upgrade')
-parser.add_argument('--check-update', action='store_true', help='check updated packages')
 
 parser.add_argument('--info', nargs='?', help='Show package info')
 
@@ -49,10 +48,6 @@ if arguments.uninstall:
 if arguments.update or arguments.upgrade:
     cmd.insert(0, 'sudo')
     cmd.append("-Syu")
-
-if arguments.check_update:
-    system("sudo pacman -Sy >/dev/null")
-    cmd.append("-Qu")
 
 if arguments.info:
     cmd.append("-Si")
