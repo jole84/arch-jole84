@@ -6,4 +6,5 @@ Jole84 Arch Linux customizations
     
 ## easypacman
 Pacman wrapper with resonable syntax
+
     curl -O https://raw.githubusercontent.com/jole84/arch-jole84/refs/heads/main/easypacman
