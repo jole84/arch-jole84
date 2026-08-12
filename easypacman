@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+from os import system
+import argparse
+
+parser = argparse.ArgumentParser(
+    prog='easypacman',
+    description='Pacman wrapper with resonable syntax',
+)
+
+
+parser.add_argument('-i', '--install', nargs='*', help='Install package')
+parser.add_argument('-s', '--search', nargs='?', help='Search for package')
+parser.add_argument('-r', '--uninstall', nargs='*', help='Uninstall package and dependencies')
+
+parser.add_argument('-u', '--upgrade', action='store_true', help='upgrade system')
+parser.add_argument('--update', action='store_true', help='alias for upgrade')
+parser.add_argument('--check-update', action='store_true', help='check updated packages')
+
+parser.add_argument('--info', nargs='?', help='Show package info')
+
+parser.add_argument('--list-installed', action='store_true', help='List installed packages')
+parser.add_argument('--list-unneeded', action='store_true', help='List unneeded packages')
+parser.add_argument('--list-aliens', action='store_true', help='List installed packages not in sync database')
+
+parser.add_argument('--autoremove', action='store_true', help='Remove orphaned packages that are no longer needed')
+
+parser.add_argument('-y', '--assumeyes', action='store_true', help='Automatically answer yes to all questions')
+parser.add_argument('-v', '--verbose', action='store_true', help='Show pacman command')
+
+arguments = parser.parse_args()
+
+
+cmd = ["pacman"]
+
+if arguments.install:
+    cmd.insert(0, 'sudo')
+    cmd.append("-S")
+    cmd.extend(arguments.install)
+
+if arguments.search:
+    cmd.append("-Ss")
+    cmd.append(arguments.search)
+
+if arguments.uninstall:
+    cmd.insert(0, 'sudo')
+    cmd.append("-Rsn")
+    cmd.extend(arguments.uninstall)
+
+if arguments.update or arguments.upgrade:
+    cmd.insert(0, 'sudo')
+    cmd.append("-Syu")
+
+if arguments.check_update:
+    system("sudo pacman -Sy >/dev/null")
+    cmd.append("-Qu")
+
+if arguments.info:
+    cmd.append("-Si")
+    cmd.append(arguments.info)
+
+if arguments.list_installed:
+    cmd.append("-Qeq")
+
+if arguments.list_unneeded:
+    cmd.append("-Qdt")
+
+if arguments.list_aliens:
+    cmd.append("-Qem")
+
+if arguments.autoremove:
+    cmd.insert(0, 'sudo')
+    cmd.append('pacman -Rsu $(pacman -Qdtq)')
+
+if arguments.assumeyes:
+    cmd.append("--noconfirm")
+
+if arguments.verbose:
+    print("-" * 20)
+    print("Running command:")
+    print(" ".join(cmd))
+    print("-" * 20)
+    # print(vars(arguments))
+
+system(" ".join(cmd))
+
+# alias paccup='sudo pacman -Sy >/dev/null && pacman -Qu' -s # check for updates
