@@ -3,6 +3,7 @@ complete -c easypacman -s h -l help -d 'Show help'
 complete -c easypacman -s r -l uninstall -d 'Uninstall package' -r -a "(pacman -Qeq)" -f
 complete -c easypacman -s i -l install -d 'Install package' -r -a "(pacman -Ssq)" -f
 complete -c easypacman -s u -l upgrade -d 'Upgrade packages' -f
+complete -c easypacman -s s -l search -d 'Search for packages' -f
 
 complete -c easypacman -l info -d 'Show package info' -f
 complete -c easypacman -l list-installed -d 'List installed packages' -f
