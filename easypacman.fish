@@ -1,3 +1,5 @@
+#!/bin/fish
+
 complete -c easypacman -s h -l help -d 'Show help'
 
 complete -c easypacman -s r -l uninstall -d 'Uninstall package' -r -a "(pacman -Qeq)" -f
