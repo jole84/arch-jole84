@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from os import system
+from sys import exit
 import argparse
 
 parser = argparse.ArgumentParser(
@@ -9,8 +10,10 @@ parser = argparse.ArgumentParser(
 
 
 parser.add_argument('-i', '--install', nargs='*', help='Install package')
+parser.add_argument('-I', '--install-interactive', action='store_true', help='Fuzzy search and install, <TAB> selects multiple')
 parser.add_argument('-s', '--search', nargs='?', help='Search for package')
 parser.add_argument('-r', '--uninstall', nargs='*', help='Uninstall package and dependencies')
+parser.add_argument('-R', '--uninstall-interactive', action='store_true', help='Fuzzy search and uninstall, <TAB> selects multiple')
 
 parser.add_argument('-u', '--upgrade', action='store_true', help='upgrade system')
 parser.add_argument('--update', action='store_true', help='alias for upgrade')
@@ -30,6 +33,14 @@ arguments = parser.parse_args()
 
 
 cmd = ["pacman"]
+
+if arguments.install_interactive:
+    system("pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S")
+    exit()
+
+if arguments.uninstall_interactive:
+    system("pacman -Qq | fzf --multi --preview 'pacman -Qi {1}' | xargs -ro sudo pacman -Rns")
+    exit()
 
 if arguments.install:
     cmd.insert(0, 'sudo')
