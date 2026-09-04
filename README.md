@@ -8,4 +8,4 @@ Pacman wrapper with resonable syntax
     curl -O https://raw.githubusercontent.com/jole84/arch-jole84/refs/heads/main/easypacman
 
 ## arch_declarative
-Declarative package list
+Declarative pacman package list
