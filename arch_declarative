@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+import subprocess
+from os import system
+from os.path import exists
+
+desired_packages = "desired_packages"
+
+if not exists(desired_packages):
+    print("Desired_packages files is created! edit to add/remove packages")
+    system("pacman -Qeq > desired_packages")
+
+with open(desired_packages) as file:
+    desired_packages = [line.rstrip() for line in file]
+
+installed_packages = subprocess.run(["pacman", "-Qeq"], capture_output=True, text=True).stdout.splitlines()
+
+to_install = sorted(list(set(desired_packages) - set(installed_packages)))
+to_remove = sorted(list(set(installed_packages) - set(desired_packages)))
+
+
+if to_install:
+    print("Installing: " + " ".join(to_install))
+
+    cmd = ["sudo", "pacman", "-S"]
+
+    for package in to_install:
+        cmd.append(package)
+    system(" ".join(cmd))
+
+if to_remove:
+    print("Uninstalling: " + " ".join(to_remove))
+
+    cmd = ["sudo", "pacman", "-Rcs"]
+    
+    for package in to_remove:
+        cmd.append(package)
+    system(" ".join(cmd))
+
+if sorted(installed_packages) == sorted(desired_packages):
+    print("Nothing to do")
