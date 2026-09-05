@@ -1,40 +1,40 @@
 #!/usr/bin/env python3
-import subprocess
-from os import system
 from os.path import exists
+from os import system
+from subprocess import run
+from sys import exit
 
-desired_packages = "desired_packages"
+TARGET_FILE = "desired_packages"
 
-if not exists(desired_packages):
-    print("Desired_packages files is created! edit to add/remove packages")
-    system("pacman -Qeq > desired_packages")
+if not exists(TARGET_FILE):
+    print(f"Created '{TARGET_FILE}'. Edit it to define your target packages, then rerun.")
+    with open(TARGET_FILE, "w") as f:
+        run(["pacman", "-Qeq"], stdout=f, check=True)
+    exit(0)
 
-with open(desired_packages) as file:
-    desired_packages = [line.rstrip() for line in file]
+with open(TARGET_FILE) as f:
+    desired_packages = {
+        line.strip() for line in f 
+        if line.strip() and not line.strip().startswith("#")
+    }
 
-installed_packages = subprocess.run(["pacman", "-Qeq"], capture_output=True, text=True).stdout.splitlines()
+result = run(["pacman", "-Qeq"], capture_output=True, text=True, check=True)
+installed_packages = set(result.stdout.splitlines())
 
-to_install = sorted(list(set(desired_packages) - set(installed_packages)))
-to_remove = sorted(list(set(installed_packages) - set(desired_packages)))
-
+to_install = sorted(desired_packages - installed_packages)
+to_remove = sorted(installed_packages - desired_packages)
 
 if to_install:
-    print("Installing: " + " ".join(to_install))
-
-    cmd = ["sudo", "pacman", "-S"]
-
-    for package in to_install:
-        cmd.append(package)
+    cmd = ["sudo", "pacman", "-S", "--needed"]
+    print(f"Installing: {' '.join(to_install)}")
+    cmd.extend(to_install)
     system(" ".join(cmd))
 
 if to_remove:
-    print("Uninstalling: " + " ".join(to_remove))
-
-    cmd = ["sudo", "pacman", "-Rcs"]
-    
-    for package in to_remove:
-        cmd.append(package)
+    cmd = ["sudo", "pacman", "-Rns"]
+    print(f"Uninstalling: {' '.join(to_remove)}")
+    cmd.extend(to_remove)
     system(" ".join(cmd))
 
-if sorted(installed_packages) == sorted(desired_packages):
-    print("Nothing to do")
+if not to_install and not to_remove:
+    print("System is in sync with desired state.")
