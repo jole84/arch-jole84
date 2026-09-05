@@ -4,7 +4,7 @@ from os import system
 from subprocess import run
 from sys import exit
 
-TARGET_FILE = "desired_packages"
+TARGET_FILE = "desired_arch_packages"
 
 if not exists(TARGET_FILE):
     print(f"Created '{TARGET_FILE}'. Edit it to define your target packages, then rerun.")
