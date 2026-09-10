@@ -12,6 +12,9 @@ sudo sed \
 set -U fish_greeting
 set -U fish_prompt_pwd_dir_length 0
 
+# easypacman fish completions
+ln -sf ./easypacman.fish ~/.config/fish/completions/
+
 # aur git pull
 # find ~/aur -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;
 
