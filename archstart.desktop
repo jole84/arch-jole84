@@ -1,0 +1,13 @@
+[Desktop Entry]
+Comment=Start Arch Linux toolbox
+Exec=toolbox run --container arch fish
+Icon=preferences-system-linux
+Name=Arch Linux
+Path=
+StartupNotify=true
+Terminal=true
+TerminalOptions=
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-Username=
+# cp archstart.desktop ~/.local/share/applications
