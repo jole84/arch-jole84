@@ -45,7 +45,7 @@ if arguments.uninstall_interactive:
 
 if arguments.install:
     cmd.insert(0, 'sudo')
-    cmd.append("-S")
+    cmd.extend(["-S", "--needed"])
     cmd.extend(arguments.install)
 
 if arguments.search:
