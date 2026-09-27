@@ -23,10 +23,10 @@ parser.add_argument('-R', '--remove-interactive', action='store_true', help='Fuz
 arguments = parser.parse_args()
 
 if not exists(TARGET_FILE):
-    print(f"Created '{TARGET_FILE}'. Edit it to define your target packages, then rerun.")
     createTargetFile()
 
     if not arguments.install_interactive and not arguments.remove_interactive:
+        print(f"Created '{TARGET_FILE}'. Edit it to define your target packages, then rerun.")
         exit(0)
 
 if arguments.install_interactive:
