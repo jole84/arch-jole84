@@ -3,13 +3,38 @@ from os.path import exists
 from os import system
 from subprocess import run
 from sys import exit
+import argparse
+
+def createTargetFile():
+    with open(TARGET_FILE, "w") as f:
+        run(["pacman", "-Qeq"], stdout=f, check=True)
+
+parser = argparse.ArgumentParser(
+    prog='arch_declarative',
+    description='Declarative pacman package list',
+    # argument_default=[],
+)
 
 TARGET_FILE = "desired_arch_packages"
 
+parser.add_argument('-I', '--install-interactive', action='store_true', help='Fuzzy search and install packages, <TAB> selects multiple')
+parser.add_argument('-R', '--remove-interactive', action='store_true', help='Fuzzy search and remove packages, <TAB> selects multiple')
+
+arguments = parser.parse_args()
+
 if not exists(TARGET_FILE):
     print(f"Created '{TARGET_FILE}'. Edit it to define your target packages, then rerun.")
-    with open(TARGET_FILE, "w") as f:
-        run(["pacman", "-Qeq"], stdout=f, check=True)
+    createTargetFile()
+
+    if not arguments.install_interactive and not arguments.remove_interactive:
+        exit(0)
+
+if arguments.install_interactive:
+    system("pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | cat >> " + TARGET_FILE)
+
+if arguments.remove_interactive:
+    system("cat " + TARGET_FILE + " | fzf --multi --preview 'pacman -Qi {1}' | xargs -ro sudo pacman -Rns && rm desired_arch_packages")
+    createTargetFile()
     exit(0)
 
 with open(TARGET_FILE) as f:
