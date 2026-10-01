@@ -34,6 +34,9 @@ arguments, unknown = parser.parse_known_args()
 
 cmd = ["pacman"]
 
+if arguments.assumeyes:
+    cmd.append("--noconfirm")
+
 if arguments.install_interactive:
     system("pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S --needed")
     exit()
@@ -77,20 +80,17 @@ elif arguments.autoremove:
     cmd.insert(0, 'sudo')
     cmd.append('pacman -Rsu $(pacman -Qdtq)')
 
-elif arguments.assumeyes:
-    cmd.append("--noconfirm")
-
-elif arguments.verbose:
-    print("-" * 20)
-    print("Running command:")
-    print(" ".join(cmd))
-    print("-" * 20)
-    # print(vars(arguments))
-
 else:
+    print("No argument given, running system upgrade")
     cmd.insert(0, 'sudo')
     cmd.extend(["-Syu", "--needed"])
     cmd.extend(unknown)
+
+if arguments.verbose:
+    print("-" * 20)
+    print("Pacman command:")
+    print(" ".join(cmd))
+    print("-" * 20)
 
 system(" ".join(cmd))
 
