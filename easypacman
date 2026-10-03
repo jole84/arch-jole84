@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from os import system
 from sys import exit
+from subprocess import run, check_output, Popen, PIPE
 import argparse
 
 parser = argparse.ArgumentParser(
@@ -38,6 +39,11 @@ if arguments.assumeyes:
     cmd.append("--noconfirm")
 
 if arguments.install_interactive:
+    # packages = check_output("pacman -Slq | fzf --multi --preview 'pacman -Si {1}'", shell=True, text=True)[:-1].split("\n")
+    # print("Installing " + " ".join(packages))
+    # cmd.insert(0, 'sudo')
+    # cmd.extend(["-S", "--needed"])
+    # cmd.extend(packages)
     system("pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S --needed")
     exit()
 
