@@ -14,6 +14,10 @@ complete -c easypacman -l list-installed -d 'List installed packages' -f
 complete -c easypacman -l list-unneeded -d 'List unneeded packages' -f
 complete -c easypacman -l list-aliens -d 'List installed packages not in sync database' -f
 complete -c easypacman -l autoremove -d 'Remove orphaned packages that are no longer needed' -f
+
+complete -c easypacman -l mark-explicit -d 'Mark PACKAGE as explicitly installed' -r -a "(pacman -Qeq)" -f
+complete -c easypacman -l mark-dependency -d 'Mark PACKAGE as dependency' -r -a "(pacman -Qeq)" -f
+
 complete -c easypacman -s y -l assumeyes -d 'Automatically answer yes to all questions' -f
 complete -c easypacman -s v -l verbose -d 'Show pacman command' -f
 

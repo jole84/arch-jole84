@@ -29,6 +29,9 @@ parser.add_argument('--list-aliens', action='store_true', help='List installed p
 
 parser.add_argument('--autoremove', action='store_true', help='Remove orphaned packages that are no longer needed')
 
+parser.add_argument('--mark-explicit', nargs='*', help='Mark PACKAGE as explicitly installed')
+parser.add_argument('--mark-dependency', nargs='*', help='Mark PACKAGE as dependency')
+
 parser.add_argument('-y', '--assumeyes', action='store_true', help='Automatically answer yes to all questions')
 parser.add_argument('-v', '--verbose', action='store_true', help='Show pacman command')
 
@@ -93,6 +96,16 @@ elif arguments.list_aliens:
 elif arguments.autoremove:
     cmd.insert(0, 'sudo')
     cmd.append('pacman -Rsu $(pacman -Qdtq)')
+
+elif arguments.mark_explicit:
+    cmd.insert(0, 'sudo')
+    cmd.extend(["-D", "--asexplicit"])
+    cmd.extend(arguments.mark_explicit)
+
+elif arguments.mark_dependency:
+    cmd.insert(0, 'sudo')
+    cmd.extend(["-D", "--asdeps"])
+    cmd.extend(arguments.mark_dependency)
 
 else:
     print("No argument given, running system upgrade")
