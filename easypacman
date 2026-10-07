@@ -108,6 +108,8 @@ elif arguments.version:
 
 else:
     print("No argument given, running system upgrade")
+    if cmd[0] == "yay":
+        cmd.append("--answerupgrade 0")
     cmd.extend(["-Syu", "--needed"])
     cmd.extend(unknown)
 
