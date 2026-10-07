@@ -8,19 +8,21 @@ import argparse
 def createTargetFile():
     with open(TARGET_FILE, "w") as f:
         f.write("# explicitly installed packages:\n\n")
-        f.write(run([helper, "-Qeq"], capture_output=True, text=True, check=True).stdout)
+        f.write(run(["pacman", "-Qeq"], capture_output=True, text=True, check=True).stdout)
 
         f.write("\n\n# non-explicitly installed packages:\n\n")
-        f.write(run([helper, "-Qdq"], capture_output=True, text=True, check=True).stdout)
+        f.write(run(["pacman", "-Qdq"], capture_output=True, text=True, check=True).stdout)
 
 
 
 if exists("/usr/bin/yay"):
-    helper = "yay"
+    cmd = ["yay"]
 elif exists("/usr/bin/paru"):
-    helper = "paru"
+    cmd = ["paru"]
+elif exists("/usr/bin/pikaur"):
+    cmd = ["pikaur"]
 else:
-    helper = "pacman"
+    cmd = ["sudo", "pacman"]
 
 parser = argparse.ArgumentParser(
     prog='arch_declarative',
@@ -43,7 +45,7 @@ if not exists(TARGET_FILE):
         exit(0)
 
 if arguments.install_interactive:
-    system("pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | cat >> " + TARGET_FILE)
+    system(f"{cmd[-1]} -Slq | fzf --multi --preview '{cmd[-1]} -Si {{1}}' | cat >> " + TARGET_FILE)
 
 if arguments.remove_interactive:
     system("cat " + TARGET_FILE + " | fzf --multi --preview 'pacman -Qi {1}' | xargs -ro sudo pacman -Rns && rm desired_arch_packages")
@@ -56,23 +58,25 @@ with open(TARGET_FILE) as f:
         if line.strip() and not line.strip().startswith("#")
     }
 
-result = run([helper, "-Qq"], capture_output=True, text=True, check=True)
+result = run([cmd[-1], "-Qq"], capture_output=True, text=True, check=True)
 installed_packages = set(result.stdout.splitlines())
 
 to_install = sorted(desired_packages - installed_packages)
 to_remove = sorted(installed_packages - desired_packages)
 
 if to_install:
-    cmd = ["sudo", helper, "-S", "--needed"]
+    cmd.extend(["-S", "--needed"])
     print(f"Installing: {' '.join(to_install)}")
     cmd.extend(to_install)
     system(" ".join(cmd))
+    exit()
 
 if to_remove:
-    cmd = ["sudo", helper, "-Rns"]
+    cmd.append("-Rns")
     print(f"Uninstalling: {' '.join(to_remove)}")
     cmd.extend(to_remove)
     system(" ".join(cmd))
+    exit()
 
 if not to_install and not to_remove:
     print("System is in sync with desired state.")
