@@ -7,11 +7,11 @@ import argparse
 
 def createTargetFile():
     with open(TARGET_FILE, "w") as f:
-        f.write("# explicitly installed packages:\n\n")
+        # f.write("# explicitly installed packages:\n\n")
         f.write(run(["pacman", "-Qeq"], capture_output=True, text=True, check=True).stdout)
 
-        f.write("\n\n# non-explicitly installed packages:\n\n")
-        f.write(run(["pacman", "-Qdq"], capture_output=True, text=True, check=True).stdout)
+        # f.write("\n\n# non-explicitly installed packages:\n\n")
+        # f.write(run(["pacman", "-Qdq"], capture_output=True, text=True, check=True).stdout)
 
 
 
@@ -58,7 +58,7 @@ with open(TARGET_FILE) as f:
         if line.strip() and not line.strip().startswith("#")
     }
 
-result = run([cmd[-1], "-Qq"], capture_output=True, text=True, check=True)
+result = run([cmd[-1], "-Qeq"], capture_output=True, text=True, check=True)
 installed_packages = set(result.stdout.splitlines())
 
 to_install = sorted(desired_packages - installed_packages)
