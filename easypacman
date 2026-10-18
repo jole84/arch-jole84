@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument('-i', '--install', nargs='*', help='Install package')
 parser.add_argument('-I', '--install-interactive', action='store_true', help='Fuzzy search and install, <TAB> selects multiple')
+parser.add_argument('--install-group-interactive', action='store_true', help='Fuzzy search and install package group')
 parser.add_argument('-s', '--search', nargs='?', help='Search for package')
 parser.add_argument('-r', '--uninstall', nargs='*', help='Uninstall package and dependencies')
 parser.add_argument('-R', '--uninstall-interactive', action='store_true', help='Fuzzy search and uninstall, <TAB> selects multiple')
@@ -58,6 +59,10 @@ if arguments.install_interactive:
     # cmd.extend(["-S", "--needed"])
     # cmd.extend(packages)
     system(f"{cmd[-1]} -Slq | fzf --multi --preview '{cmd[-1]} -Si {{1}}' | xargs -ro {" ".join(cmd)} -S --needed")
+    exit()
+
+if arguments.install_group_interactive:
+    system(f"{cmd[-1]} -Sg | sort | fzf --preview '{cmd[-1]} -Sg {{1}}' | xargs -ro {" ".join(cmd)} -S --needed")
     exit()
 
 elif arguments.uninstall_interactive:

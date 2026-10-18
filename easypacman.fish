@@ -6,6 +6,7 @@ complete -c easypacman -s r -l uninstall -d 'Uninstall package' -r -a "(pacman -
 complete -c easypacman -s R -l uninstall-interactive -d 'Fuzzy search and uninstall' -f
 complete -c easypacman -s i -l install -d 'Install package' -r -a "(pacman -Ssq)" -f
 complete -c easypacman -s I -l install-interactive -d 'Fuzzy search and install' -f
+complete -c easypacman -l install-group-interactive -d 'Fuzzy search and install package group' -f
 complete -c easypacman -s u -l upgrade -d 'Upgrade packages' -f
 complete -c easypacman -s s -l search -d 'Search for packages' -f
 
