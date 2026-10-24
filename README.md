@@ -1,3 +1,5 @@
+![Arch logo](arch.svg)
+
 ## Jole84 Arch Linux customizations
 
     curl https://raw.githubusercontent.com/jole84/arch-jole84/refs/heads/main/customizations.sh | fish
