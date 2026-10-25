@@ -2,10 +2,8 @@
     <img src="./arch.svg" width="200" height="200">
 </div>
 
-## Jole84 Arch Linux customizations
+# Jole84 Arch Linux customizations
 
-    curl https://raw.githubusercontent.com/jole84/arch-jole84/refs/heads/main/customizations.sh | fish
-    
 ## easypacman
 Pacman wrapper with resonable syntax
 
