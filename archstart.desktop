@@ -1,7 +1,7 @@
 [Desktop Entry]
 Comment=Start Arch Linux toolbox
 Exec=toolbox run --container arch fish
-Icon=preferences-system-linux
+Icon=./arch.svg
 Name=Arch Linux
 Path=
 StartupNotify=true
